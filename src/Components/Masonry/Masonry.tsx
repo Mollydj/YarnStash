@@ -1,14 +1,7 @@
 import React from "react";
-import { Card, Flex, Masonry } from "antd";
+import { Masonry } from "antd";
 import type { MasonryItemType } from "antd/es/masonry/MasonryItem";
-
-// ========= TYPES =========
-
-interface CardComponentProps {
-  url: string;
-  yarnName: string;
-  brandName: string;
-}
+import CardComponent from "./Card";
 
 interface CardData {
   index: number;
@@ -16,8 +9,6 @@ interface CardData {
   brandName: string;
   url: string;
 }
-
-// ========= MOCK DATA =========
 
 export const mockCards: CardData[] = [
   {
@@ -52,57 +43,6 @@ export const mockCards: CardData[] = [
   },
 ];
 
-// ========= CARD COMPONENT =========
-
-const CardComponent: React.FC<CardComponentProps> = ({
-  url,
-  yarnName,
-  brandName,
-}) => {
-  return (
-    <Card
-      title={
-        <>
-          <Flex align={"center"} justify="space-between">
-            <h3>{brandName}</h3>
-            edit
-          </Flex>
-          <Flex align={"center"} justify="space-between">
-            <span>{yarnName}</span>
-            color
-          </Flex>
-        </>
-      }
-      size="small"
-      cover={
-        <img
-          alt="yarn"
-          src={url}
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
-        />
-      }
-    >
-      <Card.Meta
-        // title="I'm Special"
-        description={
-          <>
-            <Flex align={"center"} justify="space-between">
-              <p>color</p>
-              <Flex align={"center"} justify="space-between">
-                <p>like</p>
-                <p>fave</p>
-              </Flex>
-            </Flex>
-            Notes go here....
-          </>
-        }
-      />
-    </Card>
-  );
-};
-
-// ========= MASONRY ITEMS =========
-
 const heights = [
   150, 50, 90, 70, 110, 150, 130, 80, 50, 90, 100, 150, 60, 50, 80,
 ].map((height, index): MasonryItemType => {
@@ -116,6 +56,8 @@ const heights = [
         url={cardData.url}
         yarnName={cardData.yarnName}
         brandName={cardData.brandName}
+        color={undefined}
+        notes={undefined}
       />
     ) : (
       <CardComponent
@@ -124,12 +66,13 @@ const heights = [
         }
         yarnName={"Classic"}
         brandName={"Cardiff Cashmere"}
+        color={undefined}
+        notes={"Merino wool has many excellent properties.  It is temperature-regulating.  That is, the wool keeps our bodies warm in cold weather, and releases heat in warm weather, keeping our skin cool.  At the same time, wool, like silk, can carry moisture away from the skin, and can absorb 30% of its weight without feeling wet."}
       />
     ),
   };
 });
 
-// ========= MASONRY COMPONENT =========
 
 const StashMasonry: React.FC = () => (
   <Masonry

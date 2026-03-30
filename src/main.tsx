@@ -4,18 +4,13 @@ import "./index.css";
 import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
 import { ConfigProvider } from "antd";
+import theme from "./theme/theme.ts";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <ConfigProvider
-        theme={{
-          components: {
-            Layout: {
-              headerBg: "none",
-            },
-          },
-        }}
+        theme={theme}
         direction="ltr"
       >
         <App />

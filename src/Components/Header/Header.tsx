@@ -1,39 +1,46 @@
-import { Flex, Menu, Typography } from "antd";
-import { Header } from "antd/es/layout/layout";
-import React from "react";
-// import "./Header.less";
+import { YarnBall } from "@boxicons/react/YarnBall";
+import './header.css';
+import { Flex, Layout, Button } from 'antd';
 
-const { Title } = Typography;
-
-const StashHeader = () => {
-  return (
-    <Header
-      style={{
-        position: "sticky",
-        top: 0,
-        zIndex: 1,
-        width: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "0 12px",
-      }}
-    >
-      {/* <div className="demo-logo" /> */}
-      <Flex align={"center"}>
-        <Title level={1}>Stash</Title>
-        <span>about</span>
-      </Flex>
-      <span>userName</span>
-      {/* <Menu
-        theme="dark"
-        mode="horizontal"
-        defaultSelectedKeys={["2"]}
-        items={items}
-        style={{ flex: 1, minWidth: 0 }}
-      /> */}
-    </Header>
-  );
+type User = {
+  name: string;
 };
 
-export default StashHeader;
+const { Header: AntdHeader } = Layout;
+
+
+export interface HeaderProps {
+  user?: User;
+  onLogin?: () => void;
+  onLogout?: () => void;
+  onCreateAccount?: () => void;
+}
+
+export const Header = ({ user, onLogin, onLogout, onCreateAccount }: HeaderProps) => (
+  <AntdHeader>
+    <div className="storybook-header">
+      <Flex align='center'>
+        <YarnBall />
+        <h1>Yarn Stash</h1>
+      </Flex>
+      <div>
+        {user ? (
+          <>
+            <span className="welcome">
+              Welcome, <b>{user.name}</b>!
+            </span>
+            <Button size="small" onClick={onLogout}>Log out</Button>
+          </>
+        ) : (
+          <>
+            <Button size="small" onClick={onLogin}>Log in</Button>
+            <Button size="small" onClick={onCreateAccount}>Sign up</Button>
+          </>
+        )}
+      </div>
+    </div>
+  </AntdHeader>
+);
+
+
+export default Header;
