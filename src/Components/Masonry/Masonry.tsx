@@ -1,13 +1,14 @@
 import React from "react";
 import { Masonry } from "antd";
 import type { MasonryItemType } from "antd/es/masonry/MasonryItem";
-import CardComponent from "./Card";
+import YarnCard from "./Card";
 
 interface CardData {
   index: number;
   yarnName: string;
   brandName: string;
   url: string;
+  color?: string;
 }
 
 export const mockCards: CardData[] = [
@@ -16,30 +17,35 @@ export const mockCards: CardData[] = [
     yarnName: "Merino",
     brandName: "Knitting For Olive",
     url: "https://www.laine-et-tricot.com/cdn/shop/products/merino-knitting-for-olive-quince-611118.jpg?v=1690791326&width=800",
+    color: 'Lemon'
   },
   {
-    index: 3,
+    index: 14,
     yarnName: "West Yorkshire Spinners",
     brandName: "Spindrift",
     url: "https://www.laine-et-tricot.com/cdn/shop/products/spindrift-760-caspian-347149.jpg?v=1691845399&width=440",
+    color: 'Bright Blue'
   },
   {
-    index: 4,
+    index: 10,
     yarnName: "Peer Gynt",
     brandName: "Sandnes Garn",
     url: "https://www.laine-et-tricot.com/cdn/shop/files/peer-gynt-3342-mocha-mousse-8429230.jpg?v=1756157228&width=667",
+    color: '13123'
   },
   {
-    index: 5,
+    index: 4,
     yarnName: "Finull",
     brandName: "Fivel",
     url: "https://www.laine-et-tricot.com/cdn/shop/files/fivel-021-bla-736539.jpg?v=1757065207&width=1200",
+    color: 'Electric'
   },
   {
-    index: 2,
+    index: 5,
     yarnName: "EDELWEISS ALPAKA 25GR",
     brandName: "Kremke Soul Wool",
     url: "https://www.laine-et-tricot.com/cdn/shop/products/edelweiss-alpaka-25gr-001-natural-white-145476.jpg?v=1690787290&width=740",
+    color: 'Natural White'
   },
 ];
 
@@ -52,15 +58,15 @@ const heights = [
     key: `item-${index}`,
     data: height,
     children: cardData ? (
-      <CardComponent
+      <YarnCard
         url={cardData.url}
         yarnName={cardData.yarnName}
         brandName={cardData.brandName}
-        color={undefined}
-        notes={undefined}
+        color={cardData.color}
+        notes={'Grows around 2.5 inches after blocking'}
       />
     ) : (
-      <CardComponent
+      <YarnCard
         url={
           "https://www.laine-et-tricot.com/cdn/shop/files/cashmere-classic-725-niwa-912260.jpg?v=1725607207&width=1206"
         }
@@ -76,8 +82,8 @@ const heights = [
 
 const StashMasonry: React.FC = () => (
   <Masonry
-    columns={4}
-    gutter={12}
+    columns={5}
+    gutter={8}
     items={heights}
     itemRender={({ data, children }) => (
       <div

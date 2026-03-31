@@ -1,73 +1,81 @@
-import { Card, Flex, Image } from "antd";
+import { Card, Flex, Image, Typography } from "antd";
 import { Heart } from "@boxicons/react/Heart";
-import { DotsHorizontalRounded } from "@boxicons/react";
+import { DotsHorizontalRounded, Yarn, YarnBall } from "@boxicons/react";
+import "./Card.css";
 
-interface CardComponentProps {
+interface YarnCardProps {
   url: string;
   yarnName: string;
   brandName: string;
-  color: string | undefined;
-  notes: string | undefined;
+  color?: string;
+  notes?: string;
   isFavorite?: boolean;
+  loading: boolean;
 }
 
-const CardComponent: React.FC<CardComponentProps> = ({
+const { Title, Paragraph } = Typography;
+
+const textStyle = {
+  textAlign: "left",
+  margin: 0,
+  fontWeight: 400,
+  fontSize: 12,
+};
+const textStyle2 = {
+  textAlign: "left",
+  margin: 0,
+  fontSize: 14,
+};
+
+const YarnCard: React.FC<YarnCardProps> = ({
   url,
   yarnName,
   brandName,
   color,
   notes,
   isFavorite,
-}) => {
-  return (
-    <Card
-      title={
-        <>
-          <Flex align={"center"} justify="space-between">
-            <div>
-              <span>{brandName}</span> <span>{yarnName}</span>
-            </div>
-            <div>
-              <DotsHorizontalRounded pack="filled" size={16} />
-              {isFavorite ? <Heart pack="filled" /> : <Heart />}
-            </div>
-          </Flex>
-        </>
-      }
-      size="small"
-      cover={
-        <Image
-          alt="yarn"
-          src={url}
-          height={220}
-          style={{ objectFit: "cover" }}
-          preview={false}
-        />
-      }
-    >
-      {(color || notes) && <Card.Meta
-        description={
-          <>
-            <Flex align={"center"} justify="space-between">
-              {color && <span>{color}</span>}
-            </Flex>
-            {notes && (
-              <span
-                style={{
-                  display: "-webkit-box",
-                  WebkitLineClamp: 3,
-                  WebkitBoxOrient: "vertical",
-                  overflow: "hidden",
-                }}
-              >
-                {notes}
-              </span>
-            )}
-          </>
-        }
-      />}
-    </Card>
-  );
-};
+  loading,
+}) => (
+  <Card
+    loading={loading}
+    title={
+      <Flex align="center" justify="space-between">
+        <Flex vertical>
+          <Typography>
+          <Paragraph style={textStyle2}>{yarnName}</Paragraph>
+          <Paragraph style={textStyle}>{brandName}</Paragraph>
+          
+          </Typography>
+        </Flex>
 
-export default CardComponent;
+        <Flex gap={8} style={{ width: "fit-content" }}>
+          <DotsHorizontalRounded pack="filled" size={16} />
+          <Heart pack={isFavorite ? "filled" : "regular"} />
+        </Flex>
+      </Flex>
+    }
+    cover={
+      loading ? (
+        <YarnBall size="3xl" />
+      ) : (
+        <Image
+          src={url}
+          alt="yarn"
+          height={200}
+          preview={false}
+          loading="lazy"
+          style={{ objectFit: "cover" }}
+        />
+      )
+    }
+  >
+    {color && <Paragraph>{color}</Paragraph>}
+    {notes && (
+      <Paragraph ellipsis={{ rows: 3, expandable: true, symbol: "more" }}>
+        {notes}
+      </Paragraph>
+    )}
+  </Card>
+);
+
+export default YarnCard;
